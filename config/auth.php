@@ -43,14 +43,14 @@ return [
         'api' => [
             'driver' => 'jwt',
             'provider' => 'users',
-            'hash'=>false,
+         //   'hash'=>false,
         ],
-    /*    'user-api' => [
+        'user-api' => [
             'driver' => 'jwt',
             'provider' => 'users',
             'hash'=>false,
         ],
-    */
+
         'admin-api' => [
             'driver' => 'jwt',
             'provider' => 'admins',

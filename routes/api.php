@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Admin\AuthController;
 use App\Http\Controllers\Api\categoriesController;
+use App\Http\Controllers\Api\User\AuthUserController;
 
 
 /** JWT_SECRET=j8OG4dvuuagYQEMlklbMQ9CmZvGSuWHZqjtJqoAN3nONZXP3AwLxjH1h5UlOlisB
@@ -42,8 +43,25 @@ use App\Http\Controllers\Api\categoriesController;
             //invalidate token for security side
             // broken access controller user enumeration
         });
-      //  Route::post('getCategoryById2,{id}',[categoriesController::class,'getCategoryById2']);
 
+        Route::group(['prefix'=>'user'],function(){
+            Route::post('login',[AuthUserController::class,'login']);
+            Route::post('logout',[AuthUserController::class,'logout'])->middleware('assignGuard:user-api');
+
+            Route::group(['middleware'=>'assignGuard:user-api'],function(){
+                Route::post('profile',function(){
+                   return 'only authenticated user can rach me';
+                });
+             });
+
+        });
+/*
+        Route::group(['prefix'=>'user','middleware'=>'assignGuard:user-api'],function(){
+           Route::post('profile',function(){
+              return 'only authenticated user can rach me';
+           });
+        });
+*/
     });
 
     Route::group(['middleware'=>['api','checkPassword','changeLanguage','checkAdminToken:admin-api']],function(){
